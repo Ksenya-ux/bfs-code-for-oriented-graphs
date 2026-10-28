@@ -21,8 +21,16 @@ public:
 
 	  rel(*this, p[0], IRT_EQ, 0);
       for (int i = 1; i < n; i++) rel(*this, p[i], IRT_LQ, i - 1);
+      
+      //ветвление по приципу берем неиниц переменную и начинаем с минимального значения домена
+	  IntVarArgs tree;
+      for (int i = 1; i < n; i++) tree << p[i];
+      branch(*this, tree, INT_VAR_NONE(), INT_VAL_MIN()); 
+      IntVarArgs back;
+      for (int j = 0; j < nb; j++) back << x[j] << y[j];
+      branch(*this, back, INT_VAR_NONE(), INT_VAL_MIN());
 		  
-	  }
+	 }
 	  
 	BFSModel(BFSModel& s) : Space(s), n(s.n), m(s.m)
 	{
